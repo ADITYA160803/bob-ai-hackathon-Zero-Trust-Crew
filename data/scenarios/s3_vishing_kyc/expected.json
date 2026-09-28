@@ -1,0 +1,12 @@
+{
+  "scenario": "s3_vishing_kyc",
+  "pattern": "VISHING",
+  "confidence_min": 0.4,
+  "kingpin": ["ravi@paytm"],
+  "handlers": ["amit@yesbank"],
+  "mules": ["deepak@federal", "pooja@kotak", "raju@union"],
+  "victims": ["priya@axisbank", "ramesh@icici", "anita@hdfcbank", "sunita@sbi", "mohan@pnb", "geeta@citibank"],
+  "total_loss_inr": 305500,
+  "victim_count": 6,
+  "notes": "All data is fictional. Expected values used by tests only — not hard-coded in logic."
+}

@@ -1,0 +1,12 @@
+timestamp,txn_id,sender_upi,receiver_upi,amount_inr,bank,status
+2023-05-03T10:14:00,TXN_V001,priya@axisbank,ravi@paytm,45000,AXIS,SUCCESS
+2023-05-04T11:32:00,TXN_V002,ramesh@icici,ravi@paytm,62000,ICICI,SUCCESS
+2023-05-05T14:22:00,TXN_V003,anita@hdfcbank,ravi@paytm,38500,HDFC,SUCCESS
+2023-05-06T09:45:00,TXN_V004,sunita@sbi,ravi@paytm,72000,SBI,SUCCESS
+2023-05-07T15:18:00,TXN_V005,mohan@pnb,ravi@paytm,55000,PNB,SUCCESS
+2023-05-08T13:30:00,TXN_V006,geeta@citibank,ravi@paytm,33000,CITI,SUCCESS
+2023-05-03T10:45:00,TXN_V007,ravi@paytm,amit@yesbank,165500,PAYTM,SUCCESS
+2023-05-06T16:00:00,TXN_V008,ravi@paytm,amit@yesbank,140000,PAYTM,SUCCESS
+2023-05-04T12:00:00,TXN_V009,amit@yesbank,deepak@federal,87000,YESBANK,SUCCESS
+2023-05-06T10:00:00,TXN_V010,amit@yesbank,pooja@kotak,78500,YESBANK,SUCCESS
+2023-05-07T16:30:00,TXN_V011,amit@yesbank,raju@union,50000,YESBANK,SUCCESS

@@ -164,6 +164,61 @@ def _load_sample_analysis():
     return AnalysisResult.model_validate_json(raw).model_dump()
 
 
+# ---------------------------------------------------------------------------
+# GET /api/demo  — list available scenarios
+# ---------------------------------------------------------------------------
+
+@router.get("/demo")
+def list_demo_scenarios() -> dict:
+    """
+    Return a list of available demo scenarios.
+
+    Scans data/scenarios/ for subdirectories that contain at least one
+    known input file.  Always includes 'sample' as the offline fallback.
+    """
+    _SCENARIO_META = {
+        "s1_simswap_jamtara": {
+            "label": "Jamtara SIM-Swap Ring",
+            "description": "14 victims · ₹12.5L · SIM-swap + mule layering",
+            "icon": "📡",
+        },
+        "s2_mule_layering": {
+            "label": "Multi-Layer Mule Network",
+            "description": "9 victims · ₹8.2L · Fan-in/fan-out mule chain",
+            "icon": "🏦",
+        },
+        "s3_vishing_kyc": {
+            "label": "Vishing + KYC Fraud",
+            "description": "22 victims · ₹19.1L · OTP interception",
+            "icon": "📞",
+        },
+    }
+    scenarios: list[dict] = []
+    if _SCENARIOS_DIR.exists():
+        for d in sorted(_SCENARIOS_DIR.iterdir()):
+            if not d.is_dir():
+                continue
+            has_data = any(
+                (d / f).exists() for f in ["raw_notes.txt", "call_logs.csv", "transactions.csv"]
+            )
+            if has_data:
+                meta = _SCENARIO_META.get(d.name, {
+                    "label": d.name.replace("_", " ").title(),
+                    "description": "Mock scenario",
+                    "icon": "🔍",
+                })
+                scenarios.append({"id": d.name, **meta})
+    # Always include sample as fallback
+    if not any(s["id"] == "sample" for s in scenarios):
+        scenarios.insert(0, {
+            "id": "sample",
+            "label": "Sample Analysis",
+            "description": "Offline demo using sample_analysis.json",
+            "icon": "📋",
+        })
+    return {"scenarios": scenarios}
+
+
 @router.get("/demo/{scenario}/analysis")
 def demo_scenario_analysis(scenario: str) -> dict:
     """

@@ -1,0 +1,63 @@
+JAAL Mock Scenario: Vishing + KYC Fraud (s3_vishing_kyc)
+=========================================================
+NOTE: All data is fictional. No real persons or accounts.
+
+INCIDENT SUMMARY
+Date range: 2023-05-01 to 2023-05-15
+Reporting station: CID Cyber Cell, Bengaluru
+Case reference: CYB/2023/BLR/0447
+
+COMPLAINANT STATEMENTS
+Complainant: PRIYA NAIR — Account: AXIS88221 (UPI: priya@axisbank)
+  "I received a call from 9955001100 claiming to be from the bank KYC team.
+  They asked me to share my OTP and Aadhaar details. Shortly after, ₹45,000
+  was debited from my account at 2023-05-03T10:14:00."
+
+Complainant: RAMESH SHARMA — Account: ICICI77651 (UPI: ramesh@icici)
+  "Unknown caller 9955001100 posed as a bank official. I was asked to complete
+  'KYC verification' by sharing the OTP received. ₹62,000 debited on 2023-05-04."
+
+Complainant: ANITA DESAI — Account: HDFC99231 (UPI: anita@hdfcbank)
+  "Called by 9955001101. Told my account would be frozen unless KYC updated.
+  Shared OTP. ₹38,500 debited 2023-05-05T14:22:00."
+
+Complainant: SUNITA YADAV — Account: SBI66771 (UPI: sunita@sbi)
+  "Caller ID 9955001101 said bank KYC expired. Took OTP. ₹72,000 lost 2023-05-06."
+
+Complainant: MOHAN VERMA — Account: PNB55231 (UPI: mohan@pnb)
+  "Called by 9955001102. Said urgent KYC required. ₹55,000 debited 2023-05-07."
+
+Complainant: GEETA KUMARI — Account: CITI44111 (UPI: geeta@citibank)
+  "Caller 9955001102 impersonated bank. Lost ₹33,000 on 2023-05-08."
+
+ACCUSED PROFILE
+Primary operator: RAVI KRISHNA (uses phone 9955001100, 9955001101, 9955001102)
+  IMEI 356789012345671 found in call records.
+  IP address 103.45.89.22 used for VoIP calls.
+  Receives consolidated funds in account PAYTM_RAVI (UPI: ravi@paytm).
+
+Handler: AMIT SOOD (account: YESBANK_AMIT, UPI: amit@yesbank)
+  Receives funds from ravi@paytm and distributes to mule network.
+
+Mule 1: DEEPAK JOSHI — account: FEDERAL_DEEPAK (UPI: deepak@federal)
+  Received ₹87,000 from amit@yesbank, withdrawn within 20 minutes.
+
+Mule 2: POOJA MEHRA — account: KOTAK_POOJA (UPI: pooja@kotak)  
+  Received ₹78,500 from amit@yesbank, ATM withdrawal same day.
+
+Mule 3: RAJU SINGH — account: UNION_RAJU (UPI: raju@union)
+  Received ₹50,000 from amit@yesbank.
+
+DEVICE EVIDENCE
+IMEI 356789012345671 registered to 9955001100 — multiple SIM insertions on 2023-05-01.
+IP 103.45.89.22 — geolocation: Bengaluru, Karnataka.
+
+MODUS OPERANDI
+1. Caller claims to be bank KYC executive
+2. Victim shares OTP under false pretense
+3. Fraudster authorizes transfer from victim account to ravi@paytm
+4. Ravi consolidates and transfers to amit@yesbank (handler)
+5. Handler distributes to mule accounts
+6. Mules withdraw cash within 30 minutes
+Total estimated loss: ₹3,05,500
+Victims: 6 confirmed
