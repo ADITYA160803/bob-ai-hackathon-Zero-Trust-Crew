@@ -1,4 +1,4 @@
-"""
+﻿"""
 tests/test_e2e.py
 
 End-to-end tests using FastAPI TestClient.
@@ -105,7 +105,7 @@ def _record_match(scenario: str, field: str, expected, actual, match: bool):
         "field": field,
         "expected": str(expected),
         "actual": str(actual),
-        "match": "✓" if match else "✗",
+        "match": "PASS" if match else "FAIL",
     })
 
 
@@ -115,7 +115,7 @@ def _print_match_table():
     print("\n\n=== E2E Match/Mismatch Table vs expected.json ===")
     header = f"{'Scenario':<25} {'Field':<20} {'Expected':<30} {'Actual':<30} Match"
     print(header)
-    print("─" * len(header))
+    print("-" * len(header))
     for row in _MATCH_TABLE:
         print(
             f"{row['scenario']:<25} {row['field']:<20} "
@@ -378,3 +378,5 @@ class TestHealthAndDemo:
         assert resp.status_code == 200
         data = resp.json()
         assert "case_id" in data
+
+
