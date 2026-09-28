@@ -1,28 +1,18 @@
-﻿# Secrets -- never commit real credentials
-.env
+﻿.env
+.env.*
+!.env.example
 
-# Bob call logs -- generated at runtime; keep logs/.gitkeep
-logs/*.jsonl
-!logs/.gitkeep
-
-# Python bytecode
 __pycache__/
 *.pyc
-*.pyo
 
-# Pytest
-.pytest_cache/
-
-# Node / frontend
-node_modules/
-dist/
-
-# Virtual environments
 .venv/
 venv/
 
-# Package build artefacts
-*.egg-info/
+node_modules/
+dist/
+build/
 
-# macOS metadata
+*.log
+
 .DS_Store
+Thumbs.db
