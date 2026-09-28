@@ -1,0 +1,395 @@
+{
+  "case_id": "MOCK-SIM-001",
+  "primary_pattern": {
+    "type": "MULE_LAYERING",
+    "confidence": 1.0,
+    "reasons": [
+      "3 TRANSFERRED_TO edge(s) present — multi-transaction activity detected",
+      "Longest transfer chain is 3 hop(s) — multi-hop layering indicator (threshold >= 2)",
+      "2 node(s) have both incoming and outgoing transfers — intermediate pass-through accounts detected",
+      "2 node(s) have pass-through ratio within ±0.25 of 1.0 (BA_MULE0001=0.94, BA_MULE0002=0.94) — possible mule fund-forwarding behaviour",
+      "Role scorer identified 2 suspected mule node(s) in the hierarchy"
+    ]
+  },
+  "all_patterns": [
+    {
+      "type": "MULE_LAYERING",
+      "confidence": 1.0,
+      "reasons": [
+        "3 TRANSFERRED_TO edge(s) present — multi-transaction activity detected",
+        "Longest transfer chain is 3 hop(s) — multi-hop layering indicator (threshold >= 2)",
+        "2 node(s) have both incoming and outgoing transfers — intermediate pass-through accounts detected",
+        "2 node(s) have pass-through ratio within ±0.25 of 1.0 (BA_MULE0001=0.94, BA_MULE0002=0.94) — possible mule fund-forwarding behaviour",
+        "Role scorer identified 2 suspected mule node(s) in the hierarchy"
+      ]
+    },
+    {
+      "type": "SIM_SWAP",
+      "confidence": 0.75,
+      "reasons": [
+        "1 phone node(s) have 'sim_swapped_on' attribute — SIM replacement evidence",
+        "1 device(s) associated with 2 SIM(s) via SIM_IN_DEVICE edges — possible IMEI/device reuse indicator",
+        "3 LOGGED_IN_FROM edge(s) present — login from device recorded"
+      ]
+    },
+    {
+      "type": "PHISHING_KYC",
+      "confidence": 0.5,
+      "reasons": [
+        "1 IP/device node(s) accessed by 2+ different sources — shared infrastructure indicator",
+        "1 IP node(s) have LOGGED_IN_FROM edges from 2+ different sources — shared IP access indicator"
+      ]
+    },
+    {
+      "type": "VISHING",
+      "confidence": 0.5,
+      "reasons": [
+        "1 node(s) made CALLED edges to 2+ different targets — operator-style calling pattern",
+        "1 SMS_SENT edge(s) present — possible OTP delivery indicator"
+      ]
+    }
+  ],
+  "roles": [
+    {
+      "node_id": "BA_HDFC9001",
+      "role": "VICTIM",
+      "score": 0.8,
+      "why": [
+        "Suspected indicator: node has 1 outgoing transfer(s) (possible victim fund-loss indicator)",
+        "No incoming transfers observed — funds left without receiving any (possible victim indicator)",
+        "Outgoing transfer amount 50000.00 INR recorded (possible victim loss indicator)",
+        "Exactly one outgoing transfer — consistent with 'funds flow out once' victim pattern"
+      ]
+    },
+    {
+      "node_id": "BA_KP0001",
+      "role": "KINGPIN",
+      "score": 0.83333333,
+      "why": [
+        "Receives 1 incoming transfer(s)",
+        "No outgoing transfers — possible terminal fund-sink indicator",
+        "Total incoming transfer amount: 44000.00 INR",
+        "Receives 31.2% of total monitored network inflow (threshold 30%) — possible largest-share-of-funds indicator",
+        "No outgoing CALLED edges — few direct victim contacts indicator"
+      ]
+    },
+    {
+      "node_id": "BA_MULE0001",
+      "role": "MULE",
+      "score": 1.0,
+      "why": [
+        "Suspected indicator: transfer fan-in is 1 (threshold >= 1)",
+        "Suspected indicator: transfer fan-out is 1 (threshold >= 1)",
+        "Pass-through ratio 0.940 is within tolerance ±0.25 of 1.0 (possible mule fund-forwarding indicator)",
+        "Minimum transfer dwell time 720s is below 1800s (30-minute mule indicator)"
+      ]
+    },
+    {
+      "node_id": "BA_MULE0002",
+      "role": "MULE",
+      "score": 1.0,
+      "why": [
+        "Suspected indicator: transfer fan-in is 1 (threshold >= 1)",
+        "Suspected indicator: transfer fan-out is 1 (threshold >= 1)",
+        "Pass-through ratio 0.936 is within tolerance ±0.25 of 1.0 (possible mule fund-forwarding indicator)",
+        "Minimum transfer dwell time 780s is below 1800s (30-minute mule indicator)"
+      ]
+    },
+    {
+      "node_id": "DV_9900001",
+      "role": "UNKNOWN",
+      "score": 0.0,
+      "why": []
+    },
+    {
+      "node_id": "IP_192021",
+      "role": "UNKNOWN",
+      "score": 0.0,
+      "why": []
+    },
+    {
+      "node_id": "PE_OP01",
+      "role": "OPERATOR",
+      "score": 0.25,
+      "why": [
+        "Associated with 1 device(s) shared with at least one other node — possible shared-device indicator"
+      ]
+    },
+    {
+      "node_id": "PE_RAJULAL",
+      "role": "UNKNOWN",
+      "score": 0.0,
+      "why": []
+    },
+    {
+      "node_id": "PH_9990000001",
+      "role": "OPERATOR",
+      "score": 0.25,
+      "why": [
+        "Associated with 1 device(s) shared with at least one other node — possible shared-device indicator"
+      ]
+    },
+    {
+      "node_id": "PH_9990000002",
+      "role": "OPERATOR",
+      "score": 0.25,
+      "why": [
+        "Associated with 1 device(s) shared with at least one other node — possible shared-device indicator"
+      ]
+    },
+    {
+      "node_id": "PH_OP01",
+      "role": "OPERATOR",
+      "score": 0.75,
+      "why": [
+        "Suspected indicator: 2 outgoing CALLED edge(s) (threshold >= 2)",
+        "CALLED edges represent 2/3 (67%) of outgoing relationships (calls dominate activity)",
+        "At least one outgoing CALLED edge has duration_sec < 120s (short-call operator indicator)"
+      ]
+    },
+    {
+      "node_id": "UP_MOCKUPI",
+      "role": "UNKNOWN",
+      "score": 0.0,
+      "why": []
+    }
+  ],
+  "levels": [
+    [
+      "BA_KP0001"
+    ],
+    [
+      "BA_MULE0001",
+      "BA_MULE0002"
+    ],
+    [
+      "PE_OP01",
+      "PH_9990000001",
+      "PH_9990000002",
+      "PH_OP01"
+    ],
+    [
+      "BA_HDFC9001"
+    ]
+  ],
+  "totals": {
+    "loss_inr": 50000.0,
+    "victims": 1,
+    "mules": 2,
+    "operators": 4,
+    "handlers": null
+  },
+  "timeline": [
+    {
+      "ts": "2024-01-14T15:00:00",
+      "event": "Call from PHONE_OP01 to Suspected Victim (PE_RAJULAL)"
+    },
+    {
+      "ts": "2024-01-15T09:55:00",
+      "event": "Call from PHONE_OP01 to Suspected Victim (PE_RAJULAL)"
+    },
+    {
+      "ts": "2024-01-15T10:10:00",
+      "event": "Transfer of 50000 INR from XXXXXX9001 to XXXXXX0001"
+    },
+    {
+      "ts": "2024-01-15T10:22:00",
+      "event": "Transfer of 47000 INR from XXXXXX0001 to XXXXXX0002"
+    },
+    {
+      "ts": "2024-01-15T10:35:00",
+      "event": "Transfer of 44000 INR from XXXXXX0002 to XXXXXX_KP01"
+    }
+  ],
+  "metrics": {
+    "case_id": "MOCK-SIM-001",
+    "nodes": [
+      {
+        "node_id": "PE_RAJULAL",
+        "degree_centrality": 0.36363636,
+        "in_degree": 3,
+        "out_degree": 1,
+        "betweenness": 0.03636364,
+        "transfer_fan_in": 0,
+        "transfer_fan_out": 0,
+        "in_amount": null,
+        "out_amount": null,
+        "pass_through_ratio": null,
+        "min_dwell_sec": null
+      },
+      {
+        "node_id": "PE_OP01",
+        "degree_centrality": 0.27272727,
+        "in_degree": 0,
+        "out_degree": 3,
+        "betweenness": 0.0,
+        "transfer_fan_in": 0,
+        "transfer_fan_out": 0,
+        "in_amount": null,
+        "out_amount": null,
+        "pass_through_ratio": null,
+        "min_dwell_sec": null
+      },
+      {
+        "node_id": "PH_9990000001",
+        "degree_centrality": 0.18181818,
+        "in_degree": 1,
+        "out_degree": 1,
+        "betweenness": 0.03636364,
+        "transfer_fan_in": 0,
+        "transfer_fan_out": 0,
+        "in_amount": null,
+        "out_amount": null,
+        "pass_through_ratio": null,
+        "min_dwell_sec": null
+      },
+      {
+        "node_id": "PH_9990000002",
+        "degree_centrality": 0.09090909,
+        "in_degree": 0,
+        "out_degree": 1,
+        "betweenness": 0.0,
+        "transfer_fan_in": 0,
+        "transfer_fan_out": 0,
+        "in_amount": null,
+        "out_amount": null,
+        "pass_through_ratio": null,
+        "min_dwell_sec": null
+      },
+      {
+        "node_id": "PH_OP01",
+        "degree_centrality": 0.36363636,
+        "in_degree": 1,
+        "out_degree": 3,
+        "betweenness": 0.01818182,
+        "transfer_fan_in": 0,
+        "transfer_fan_out": 0,
+        "in_amount": null,
+        "out_amount": null,
+        "pass_through_ratio": null,
+        "min_dwell_sec": null
+      },
+      {
+        "node_id": "DV_9900001",
+        "degree_centrality": 0.36363636,
+        "in_degree": 3,
+        "out_degree": 1,
+        "betweenness": 0.04090909,
+        "transfer_fan_in": 0,
+        "transfer_fan_out": 0,
+        "in_amount": null,
+        "out_amount": null,
+        "pass_through_ratio": null,
+        "min_dwell_sec": null
+      },
+      {
+        "node_id": "BA_HDFC9001",
+        "degree_centrality": 0.09090909,
+        "in_degree": 0,
+        "out_degree": 1,
+        "betweenness": 0.0,
+        "transfer_fan_in": 0,
+        "transfer_fan_out": 1,
+        "in_amount": null,
+        "out_amount": 50000.0,
+        "pass_through_ratio": null,
+        "min_dwell_sec": null
+      },
+      {
+        "node_id": "BA_MULE0001",
+        "degree_centrality": 0.45454545,
+        "in_degree": 2,
+        "out_degree": 3,
+        "betweenness": 0.06818182,
+        "transfer_fan_in": 1,
+        "transfer_fan_out": 1,
+        "in_amount": 50000.0,
+        "out_amount": 47000.0,
+        "pass_through_ratio": 0.94,
+        "min_dwell_sec": 720.0
+      },
+      {
+        "node_id": "BA_MULE0002",
+        "degree_centrality": 0.27272727,
+        "in_degree": 1,
+        "out_degree": 2,
+        "betweenness": 0.02727273,
+        "transfer_fan_in": 1,
+        "transfer_fan_out": 1,
+        "in_amount": 47000.0,
+        "out_amount": 44000.0,
+        "pass_through_ratio": 0.9361702127659575,
+        "min_dwell_sec": 780.0
+      },
+      {
+        "node_id": "BA_KP0001",
+        "degree_centrality": 0.09090909,
+        "in_degree": 1,
+        "out_degree": 0,
+        "betweenness": 0.0,
+        "transfer_fan_in": 1,
+        "transfer_fan_out": 0,
+        "in_amount": 44000.0,
+        "out_amount": null,
+        "pass_through_ratio": null,
+        "min_dwell_sec": null
+      },
+      {
+        "node_id": "UP_MOCKUPI",
+        "degree_centrality": 0.09090909,
+        "in_degree": 1,
+        "out_degree": 0,
+        "betweenness": 0.0,
+        "transfer_fan_in": 0,
+        "transfer_fan_out": 0,
+        "in_amount": null,
+        "out_amount": null,
+        "pass_through_ratio": null,
+        "min_dwell_sec": null
+      },
+      {
+        "node_id": "IP_192021",
+        "degree_centrality": 0.27272727,
+        "in_degree": 3,
+        "out_degree": 0,
+        "betweenness": 0.0,
+        "transfer_fan_in": 0,
+        "transfer_fan_out": 0,
+        "in_amount": null,
+        "out_amount": null,
+        "pass_through_ratio": null,
+        "min_dwell_sec": null
+      }
+    ]
+  },
+  "communities": {
+    "case_id": "MOCK-SIM-001",
+    "communities": [
+      {
+        "community_id": 0,
+        "node_ids": [
+          "DV_9900001",
+          "PE_OP01",
+          "PE_RAJULAL",
+          "PH_9990000001",
+          "PH_9990000002",
+          "PH_OP01"
+        ],
+        "size": 6
+      },
+      {
+        "community_id": 1,
+        "node_ids": [
+          "BA_HDFC9001",
+          "BA_KP0001",
+          "BA_MULE0001",
+          "BA_MULE0002",
+          "IP_192021",
+          "UP_MOCKUPI"
+        ],
+        "size": 6
+      }
+    ],
+    "method": "greedy_modularity_communities"
+  }
+}

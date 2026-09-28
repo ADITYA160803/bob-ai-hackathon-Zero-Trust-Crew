@@ -1,0 +1,122 @@
+INVESTIGATOR FIELD NOTES — CASE: CYBER/JHK/2023/0047
+Station: Cyber Cell, Dhanbad, Jharkhand
+Prepared by: SI Roshan Pathak
+Period: 01 March 2023 – 14 March 2023
+STATUS: DRAFT — DO NOT CIRCULATE
+
+=== VICTIM COMPLAINTS SUMMARY ===
+
+1. Complaint dtd 02-Mar-2023 by Ramesh Prasad Sinha (mob: 98765 00011):
+   Account SBI XXXXXXXX2211 debited Rs 87,500 on 02/03/23. He says got call from 9876500031
+   saying "your KYC is expiring, confirm OTP". OTP came on phone, caller asked for it.
+   Within 5 mins money gone. Victim says number changed suddenly, his SIM stopped working
+   morning of 02/03. Bank helpline confirmed "login from new device at 10:44 AM, account debited immediately".
+
+2. Complaint by Sunita Devi w/o Ramesh, mob +91-98765-00012 (same household, diff account).
+   She says same caller called her 2 min after calling husband. Account PNB XXXXXXXX3322
+   debited Rs 62,000. She never shared OTP "but OTP came on his phone not mine" — victim
+   confirms SIM was swapped day before.
+
+3. Aarti Kumari, 98765-00013, HDFC XXXXXXXX4433, loss Rs 95,000 dtd 02-Mar.
+   Caller told her "aapka account band hoga 2 ghante mein, OTP batao". She gave OTP.
+   Login alert recvd from IP 10.20.30.41 (unusual device). 
+
+4. Pramod Tiwari, mob 98765 00014, UCO XXXXXXXX5544, Rs 78,000, 03-Mar-2023.
+   Received SMS from fake "SBIINB": "Your SIM will deactivate, call 9876500031 urgently."
+   Then OTP arrived, he called the number back and shared OTP. Next morning SIM dead.
+
+5. Gita Sharma, +91-98765-00015, Canara XXXXXXXX6655, Rs 54,000, 03-Mar.
+   Similar pattern, caller used name "SBI helpdesk officer". SIM swap confirmed by Airtel.
+
+6. Vijay Mahto, 9876500016, ICICI XXXXXXXX7766, Rs 1,10,000, 04-Mar.
+   This is a larger amount. Victim is a small shopkeeper. Caller from 9876500032 this time.
+   Victim says he got TWO calls — first for KYC, second for "reversal processing". Both OTPs shared.
+
+7. Poonam Gupta, 98765 00017, Axis XXXXXXXX8877, Rs 43,500, 04-Mar.
+   Caller from 9876500032. OTP shared under pressure. SIM stopped working same day.
+
+8. Sanjay Bind, +91-98765-00018, Bank of India XXXXXXXX9988, Rs 67,000, 05-Mar.
+   Notes mention calls from 9876500033. "Aapka UPI block ho gaya, abhi OTP se unlock karo."
+
+9. Meena Devi, 98765-00019, SBI XXXXXXXX1099, Rs 52,000, 05-Mar.
+
+10. Arjun Paswan, mob 9876500020, BOB XXXXXXXX2100, Rs 38,500, 06-Mar.
+
+11. Rekha Singh, 98765 00021, Union Bank XXXXXXXX3211, Rs 72,000, 06-Mar.
+    Notably this victim's call came from 9876500031 AND followup from 9876500033 — possible
+    handoff between operators noted.
+
+12. Manoj Rajak, +91-98765-00022, PNB XXXXXXXX4322, Rs 85,000, 07-Mar.
+    SIM swap confirmed. New IMEI on victim SIM: 351234567890001.
+
+13. Deepa Verma, 98765 00023, HDFC XXXXXXXX5433, Rs 47,000, 08-Mar.
+
+14. Ravi Shankar Tiwari, 98765-00024, SBI XXXXXXXX6544, Rs 1,05,000, 09-Mar.
+    Largest individual loss. Victim says caller spoke very calmly, professional English.
+    Caller number 9876500031. SIM swap 2 days before the call, victim did not notice.
+
+=== ACCUSED / SUSPECT PROFILE ===
+
+PRIMARY ACCUSED (based on CDR analysis and informer tip):
+
+A1 — "RAKESH MAHTO" (also noted in one intercept transcript as "R. MAHATO" — likely same person,
+    spelling inconsistency, possibly used alias). Age approx 28. Village Kanwa, Jamtara district.
+    Mobile: 98765 00031 (operator phone — burner, registered fake name).
+    Controls 2 mule accounts directly: knows beneficiaries personally.
+    Receives instructions from A3 (Suresh). Instructed operators OP1 and OP3.
+
+A2 — Dinesh Bhuiyan, age ~32. Nirsa, Dhanbad. Mobile 9876500034 (handler comm line).
+    Controls mule accounts via WhatsApp. Coordinates with OP2 operator.
+    Informer says "Dinesh aur Rakesh dono ek hi gang ke hain, Suresh ka order chalata hai".
+
+A3 — Suresh Kumar Yadav, age ~38. Location unknown but CDR pings near Deoghar, Jharkhand.
+    Mobile: 9876500041 (suspected main line). NEVER calls victims directly.
+    Receives bulk transfers via layered mule chain. Identified as KINGPIN.
+    SI note: "Yeh aadmi sirf hawala route se baata karta hai, phones avoid karta hai,
+    only contacts Rakesh and Dinesh, never touches victim accounts directly."
+
+=== OPERATOR PHONES (burner SIMs, likely rotated every 10 days) ===
+OP1: 9876500031 — Used by Rakesh Mahto (A1). Victim calls, OTP extraction.
+OP2: 9876500032 — Used by Dinesh's team. Victim calls.
+OP3: 9876500033 — Third operator line, possibly shared or junior operator.
+
+=== SIM SWAP OBSERVATIONS ===
+- Jio telecom confirmed 3 SIM swaps on 01-Mar for victim numbers ending 0012, 0013, 0014.
+- Airtel confirmed swaps on 02-Mar for 0015, 0016.
+- More swaps on 04-Mar for 0018, 0019, 0020.
+- Telecom insider suspected at Nirsa Airtel franchise — investigation ongoing (separate case).
+- After swap, victim's OTP diverts to new SIM held by operator.
+- New devices recorded: IMEI 351234567890001, 351234567890002, 351234567890003 (burner phones).
+
+=== BANKING OBSERVATIONS ===
+- Money first lands in 6 mule accounts (identified by bank freeze requests):
+  * MULE1: ACC_M1 = XXXXXXXX1111 (Kotak, registered Raj Kumar Sao — likely fake)
+  * MULE2: ACC_M2 = XXXXXXXX2222 (PayTM Payments Bank, name Sonu Tiwari — fake)
+  * MULE3: ACC_M3 = XXXXXXXX3333 (Airtel Payments Bank, name Amit Verma — fake)
+  * MULE4: ACC_M4 = XXXXXXXX4444 (IPPB, name Geeta Prasad — fake)
+  * MULE5: ACC_M5 = XXXXXXXX5555 (BOI, Dhanbad branch, name Pankaj Rawat — fake)
+  * MULE6: ACC_M6 = XXXXXXXX6666 (HDFC, Bokaro, name Sunita Ram — fake)
+- Mule accounts forwarded funds within 15-25 min to handler-controlled staging accounts:
+  * STAGING1: ACC_H1 = XXXXXXXX7777 (linked to Dinesh Bhuiyan per informer)
+  * STAGING2: ACC_H2 = XXXXXXXX8888 (linked to Rakesh Mahto/Mahato)
+- From staging, money sent to kingpin drain account:
+  * KINGPIN: ACC_K1 = XXXXXXXX9999 (SBI Deoghar — Suresh Kumar Yadav, benami)
+
+=== DIGITAL EVIDENCE NOTES ===
+- IMEI 351234567890001 seen in multiple cell towers near Jamtara exchange on 01-03 Mar.
+- IMEI 351234567890002 pings Nirsa, Dhanbad, same period.
+- IMEI 351234567890003 pings Deoghar area (near suspected kingpin location).
+- Cell tower BTS_JMT_01 (Jamtara central) = operator hub.
+- Cell tower BTS_DHN_03 (Dhanbad Nirsa) = handler 2 area.
+- Cell tower BTS_DEO_02 (Deoghar) = kingpin pings.
+
+=== TYPOS / FIELD NOTES (verbatim from constable notebook) ===
+- "Rakesh mahto ka nmbr hai 98765 00031, usne hi call kiya tha victim ko"
+- "Dinesh Bhuiyan 9876500034 — yahi handler no 2 hai"
+- "Surresh Yadav (sometimes noted as Suresh Kumar) — KINGPIN — never calls victims"
+- Note from telecom: victim mob ending 0013 — "SIM replace reqst came frm outlet WB_NIR_004,
+  operator ID 7714, morning of 01/03/23 — suspiciously no customer present"
+
+=== TOTAL ESTIMATED LOSS (preliminary, to be confirmed with transactions) ===
+All 14 victims combined: approximately Rs 11,96,500 — exact figure to be computed from txn records.
+(Note: field estimate may differ slightly from actual CSV totals — use CSV as ground truth)

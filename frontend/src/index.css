@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root {
+    @apply bg-bg text-text font-body h-full;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  h1, h2, h3, h4, h5 {
+    @apply font-heading;
+    line-height: 1.25;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-text-muted;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-bg font-body font-medium px-4 py-2 rounded-input text-sm transition-opacity duration-150 hover:opacity-90 active:opacity-75;
+  }
+
+  .btn-secondary {
+    @apply border border-primary text-primary font-body font-medium px-4 py-2 rounded-input text-sm transition-opacity duration-150 hover:bg-primary hover:bg-opacity-10 active:opacity-75;
+  }
+
+  .btn-danger {
+    @apply border border-kingpin text-kingpin font-body font-medium px-4 py-2 rounded-input text-sm transition-opacity duration-150 hover:bg-kingpin hover:bg-opacity-10 active:opacity-75;
+  }
+
+  .card {
+    @apply bg-surface border border-border rounded-card p-4;
+  }
+
+  .mono {
+    @apply font-mono text-[13px];
+  }
+
+  .tab {
+    @apply px-4 py-2 text-sm font-medium text-text-muted border-b-2 border-transparent transition-colors duration-150 cursor-pointer hover:text-text;
+  }
+
+  .tab-active {
+    @apply text-primary border-primary;
+  }
+}

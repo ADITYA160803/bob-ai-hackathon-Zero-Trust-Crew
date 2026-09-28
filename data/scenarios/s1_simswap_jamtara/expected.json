@@ -1,0 +1,343 @@
+{
+  "scenario": "s1_simswap_jamtara",
+  "description": "SIM swap + OTP redirection + mule layering ring, Jharkhand, March 2023",
+  "pattern": {
+    "type": "SIM_SWAP",
+    "secondary": ["MULE_LAYERING"],
+    "confidence": 0.93,
+    "reasons": [
+      "SIM replacement confirmed for 11 victim numbers before fraud calls",
+      "Login from new IMEI (351234567890001, 351234567890002) within minutes of each SIM swap",
+      "OTP redirected to operator-held SIM; victim OTP calls traceable in call_logs.csv",
+      "Rapid debit (< 10 min after login) for all 14 victims",
+      "Funds pass through 6 mule accounts with pass-through ratio 1.00 and dwell time < 30 min",
+      "Multi-hop layering: victim -> mule -> handler -> kingpin (3 hops)"
+    ]
+  },
+  "roles": [
+    {
+      "node_id": "PE_SURESH",
+      "label": "Suresh Kumar Yadav",
+      "role": "KINGPIN",
+      "score": 0.92,
+      "why": [
+        "Terminal sink of 90.0% of total fraud proceeds (INR 1,124,100 of 1,249,000)",
+        "Zero direct victim contacts in call_logs.csv",
+        "Contacts only handlers PE_RAKESH and PE_DINESH (confirmed in call_logs.csv lines with 9876500041)",
+        "Cell pings exclusively at BTS_DEO_02 (Deoghar), separate from operator cluster",
+        "Identified by informer tip corroborated by CDR pattern"
+      ],
+      "phones": ["9876500041"],
+      "accounts": ["ACC_K1"],
+      "imei": "351234567890003",
+      "sources": [
+        "call_logs.csv#L2",
+        "call_logs.csv#L3",
+        "transactions.csv#L27",
+        "raw_notes.txt#p3"
+      ]
+    },
+    {
+      "node_id": "PE_RAKESH",
+      "label": "Rakesh Mahto",
+      "name_variants": ["Rakesh Mahto", "R. Mahato"],
+      "role": "HANDLER",
+      "score": 0.85,
+      "why": [
+        "Operates operator phone OP1 (9876500031), directly calls victims",
+        "Controls staging account ACC_H2 receiving INR 598,000 from mules ACC_M1 and ACC_M2",
+        "Forwards INR 538,200 (90%) to kingpin ACC_K1, retains INR 59,800",
+        "Receives coordination calls from kingpin 9876500041",
+        "Name variant 'R. Mahato' in intercept transcript — flagged for entity resolution"
+      ],
+      "phones": ["9876500031"],
+      "accounts": ["ACC_H2"],
+      "imei": "351234567890001",
+      "sources": [
+        "raw_notes.txt#p3",
+        "call_logs.csv#L14",
+        "transactions.csv#L6",
+        "transactions.csv#L27"
+      ]
+    },
+    {
+      "node_id": "PE_DINESH",
+      "label": "Dinesh Bhuiyan",
+      "role": "HANDLER",
+      "score": 0.83,
+      "why": [
+        "Coordinates operator phone OP2 (9876500032) and OP3 (9876500033)",
+        "Controls staging account ACC_H1 receiving INR 651,000 from mules ACC_M3, ACC_M4, ACC_M6",
+        "Forwards INR 585,900 (90%) to kingpin ACC_K1, retains INR 65,100",
+        "Handler communication line 9876500034 shows regular check-ins with kingpin",
+        "Cell pings at BTS_DHN_03 (Dhanbad Nirsa) matching informer tip"
+      ],
+      "phones": ["9876500034"],
+      "accounts": ["ACC_H1"],
+      "imei": "351234567890002",
+      "sources": [
+        "raw_notes.txt#p3",
+        "call_logs.csv#L10",
+        "transactions.csv#L11",
+        "transactions.csv#L30"
+      ]
+    },
+    {
+      "node_id": "PH_OP1",
+      "label": "Operator phone 9876500031",
+      "role": "OPERATOR",
+      "score": 0.88,
+      "why": [
+        "Called 10 distinct victim numbers (V11, V12, V14, V19, V20, V21, V22, V24 across dates)",
+        "All victim calls 264-321 sec (OTP extraction pattern)",
+        "Exclusively at BTS_JMT_01 (Jamtara central)",
+        "IMEI 351234567890001 on all Jamtara calls"
+      ],
+      "phones": ["9876500031"],
+      "imei": "351234567890001",
+      "sources": [
+        "call_logs.csv#L14",
+        "call_logs.csv#L15",
+        "call_logs.csv#L16",
+        "call_logs.csv#L17"
+      ]
+    },
+    {
+      "node_id": "PH_OP2",
+      "label": "Operator phone 9876500032",
+      "role": "OPERATOR",
+      "score": 0.84,
+      "why": [
+        "Called victim numbers V15, V16, V17, V23 across dates",
+        "All victim calls 276-342 sec",
+        "Receives coordination from handler 9876500034",
+        "Cell pings at BTS_DHN_03"
+      ],
+      "phones": ["9876500032"],
+      "imei": "351234567890002",
+      "sources": [
+        "call_logs.csv#L19",
+        "call_logs.csv#L20",
+        "call_logs.csv#L21"
+      ]
+    },
+    {
+      "node_id": "PH_OP3",
+      "label": "Operator phone 9876500033",
+      "role": "OPERATOR",
+      "score": 0.81,
+      "why": [
+        "Called victim numbers V18, V19, V20, V24",
+        "Receives direction from handler 9876500034 (call_logs.csv L39)",
+        "BTS_JMT_01 location — same cluster as OP1"
+      ],
+      "phones": ["9876500033"],
+      "imei": "351234567890001",
+      "sources": [
+        "call_logs.csv#L26",
+        "call_logs.csv#L28"
+      ]
+    },
+    {
+      "node_id": "BA_M1",
+      "label": "Mule account ACC_M1",
+      "role": "MULE",
+      "score": 0.97,
+      "why": [
+        "Received INR 149,500 from victims V11 and V12",
+        "Forwarded full amount (INR 149,500) to ACC_H2 within 24 minutes",
+        "Pass-through ratio: 1.00",
+        "Account registered under fake beneficiary (Raj Kumar Sao)"
+      ],
+      "accounts": ["ACC_M1"],
+      "sources": [
+        "transactions.csv#L2",
+        "transactions.csv#L3",
+        "transactions.csv#L6",
+        "raw_notes.txt#p4"
+      ]
+    },
+    {
+      "node_id": "BA_M2",
+      "label": "Mule account ACC_M2",
+      "role": "MULE",
+      "score": 0.97,
+      "why": [
+        "Received INR 173,000 from victims V13 and V14",
+        "Forwarded full amount (INR 173,000) to ACC_H2 within 23 minutes",
+        "Pass-through ratio: 1.00"
+      ],
+      "accounts": ["ACC_M2"],
+      "sources": [
+        "transactions.csv#L4",
+        "transactions.csv#L5",
+        "transactions.csv#L7",
+        "raw_notes.txt#p4"
+      ]
+    },
+    {
+      "node_id": "BA_M3",
+      "label": "Mule account ACC_M3",
+      "role": "MULE",
+      "score": 0.97,
+      "why": [
+        "Received INR 164,000 from victims V15 and V16",
+        "Forwarded full amount (INR 164,000) to ACC_H1 within 6 minutes of last credit",
+        "Pass-through ratio: 1.00"
+      ],
+      "accounts": ["ACC_M3"],
+      "sources": [
+        "transactions.csv#L8",
+        "transactions.csv#L9",
+        "transactions.csv#L11",
+        "raw_notes.txt#p4"
+      ]
+    },
+    {
+      "node_id": "BA_M4",
+      "label": "Mule account ACC_M4",
+      "role": "MULE",
+      "score": 0.97,
+      "why": [
+        "Received INR 140,500 from victims V17 and V18 across two days",
+        "Forwarded full amount (INR 140,500) to ACC_H1",
+        "Pass-through ratio: 1.00"
+      ],
+      "accounts": ["ACC_M4"],
+      "sources": [
+        "transactions.csv#L10",
+        "transactions.csv#L12",
+        "transactions.csv#L13",
+        "transactions.csv#L15",
+        "raw_notes.txt#p4"
+      ]
+    },
+    {
+      "node_id": "BA_M5",
+      "label": "Mule account ACC_M5",
+      "role": "MULE",
+      "score": 0.97,
+      "why": [
+        "Received INR 275,500 from victims V19, V20, V22 across three days",
+        "Forwarded full amount (INR 275,500) to ACC_H2",
+        "Pass-through ratio: 1.00"
+      ],
+      "accounts": ["ACC_M5"],
+      "sources": [
+        "transactions.csv#L14",
+        "transactions.csv#L16",
+        "transactions.csv#L17",
+        "transactions.csv#L18",
+        "transactions.csv#L21",
+        "transactions.csv#L22",
+        "raw_notes.txt#p4"
+      ]
+    },
+    {
+      "node_id": "BA_M6",
+      "label": "Mule account ACC_M6",
+      "role": "MULE",
+      "score": 0.97,
+      "why": [
+        "Received INR 346,500 from victims V21, V23, V24 across three days",
+        "Forwarded full amount (INR 346,500) to ACC_H1",
+        "Pass-through ratio: 1.00"
+      ],
+      "accounts": ["ACC_M6"],
+      "sources": [
+        "transactions.csv#L19",
+        "transactions.csv#L20",
+        "transactions.csv#L23",
+        "transactions.csv#L24",
+        "transactions.csv#L25",
+        "transactions.csv#L26",
+        "raw_notes.txt#p4"
+      ]
+    }
+  ],
+  "hierarchy": {
+    "levels": [
+      ["PE_SURESH"],
+      ["PE_RAKESH", "PE_DINESH"],
+      ["PH_OP1", "PH_OP2", "PH_OP3"],
+      ["BA_M1", "BA_M2", "BA_M3", "BA_M4", "BA_M5", "BA_M6"],
+      ["ACC_V11", "ACC_V12", "ACC_V13", "ACC_V14", "ACC_V15", "ACC_V16", "ACC_V17",
+       "ACC_V18", "ACC_V19", "ACC_V20", "ACC_V21", "ACC_V22", "ACC_V23", "ACC_V24"]
+    ]
+  },
+  "totals": {
+    "loss_inr": 1249000,
+    "victims": 14,
+    "mules": 6,
+    "handlers": 2,
+    "operators": 3,
+    "kingpin_received_inr": 1124100,
+    "kingpin_share_pct": 90.0,
+    "h1_received_inr": 651000,
+    "h1_forwarded_inr": 585900,
+    "h2_received_inr": 598000,
+    "h2_forwarded_inr": 538200,
+    "txn_row_counts": {
+      "victim_to_mule": 14,
+      "mule_to_handler": 11,
+      "handler_to_kingpin": 8,
+      "total_data_rows": 33
+    }
+  },
+  "timeline": [
+    {"ts": "2023-03-01T08:15:00", "event": "Kingpin (9876500041) briefs handlers via call — coordination begins", "source": "call_logs.csv#L2"},
+    {"ts": "2023-03-01T09:05:00", "event": "SIM swap probe calls to victim numbers 9876500019, 9876500020 (short, 11-18 sec)", "source": "call_logs.csv#L4"},
+    {"ts": "2023-03-01T10:02:00", "event": "SIM swap facilitation calls to victims 0012, 0013, 0014 by OP1", "source": "call_logs.csv#L7"},
+    {"ts": "2023-03-02T10:38:00", "event": "OTP extraction calls to victims V11-V14 by OP1 (264-311 sec each)", "source": "call_logs.csv#L14-L17"},
+    {"ts": "2023-03-02T10:44:00", "event": "First debit: V11 → ACC_M1 INR 87,500", "source": "transactions.csv#L2"},
+    {"ts": "2023-03-02T11:32:00", "event": "Last debit in first wave: V14 → ACC_M2 INR 78,000", "source": "transactions.csv#L5"},
+    {"ts": "2023-03-02T11:08:00", "event": "Mule ACC_M1 forwards INR 149,500 to handler ACC_H2 (24 min after first credit)", "source": "transactions.csv#L6"},
+    {"ts": "2023-03-02T11:40:00", "event": "Mule ACC_M2 forwards INR 173,000 to handler ACC_H2 (22 min after first credit)", "source": "transactions.csv#L7"},
+    {"ts": "2023-03-02T14:00:00", "event": "Handler ACC_H2 sends INR 290,000 to kingpin ACC_K1", "source": "transactions.csv#L27"},
+    {"ts": "2023-03-03T10:16:00", "event": "Second wave begins: V15-V17 defrauded via OP1/OP2", "source": "transactions.csv#L8"},
+    {"ts": "2023-03-05T11:08:00", "event": "V21 defrauded: INR 122,000 → ACC_M6", "source": "transactions.csv#L19"},
+    {"ts": "2023-03-06T10:35:00", "event": "V22 defrauded: INR 135,000 → ACC_M5", "source": "transactions.csv#L21"},
+    {"ts": "2023-03-09T10:15:00", "event": "Final victim V24 defrauded: INR 157,500 → ACC_M6 (largest single loss)", "source": "transactions.csv#L25"},
+    {"ts": "2023-03-09T15:00:00", "event": "Final handler-to-kingpin transfer: ACC_H1 → ACC_K1 INR 102,300", "source": "transactions.csv#L34"}
+  ],
+  "name_variants": [
+    {
+      "canonical": "PE_RAKESH",
+      "canonical_label": "Rakesh Mahto",
+      "variants": [
+        {
+          "text": "RAKESH MAHTO",
+          "note": "All-caps in accused profile header",
+          "lines": ["raw_notes.txt#L62"]
+        },
+        {
+          "text": "R. MAHATO",
+          "note": "Alternate spelling in intercept transcript reference, same line as canonical",
+          "lines": ["raw_notes.txt#L62"]
+        },
+        {
+          "text": "Rakesh Mahto",
+          "note": "Standard spelling in operator note and banking observations",
+          "lines": ["raw_notes.txt#L79", "raw_notes.txt#L101"]
+        },
+        {
+          "text": "Rakesh mahto",
+          "note": "Lowercase typo in verbatim constable notebook entry",
+          "lines": ["raw_notes.txt#L114"]
+        }
+      ]
+    }
+  ],
+  "imei_device_map": [
+    {"imei": "351234567890001", "suspect": "PE_RAKESH / OP1", "location": "BTS_JMT_01"},
+    {"imei": "351234567890002", "suspect": "PE_DINESH / OP2", "location": "BTS_DHN_03"},
+    {"imei": "351234567890003", "suspect": "PE_SURESH", "location": "BTS_DEO_02"}
+  ],
+  "sim_swaps": [
+    {"victim_phone": "9876500012", "swap_date": "2023-03-01", "telco": "Jio", "outlet": "WB_NIR_004"},
+    {"victim_phone": "9876500013", "swap_date": "2023-03-01", "telco": "Jio", "outlet": "WB_NIR_004"},
+    {"victim_phone": "9876500014", "swap_date": "2023-03-01", "telco": "Jio", "outlet": "WB_NIR_004"},
+    {"victim_phone": "9876500015", "swap_date": "2023-03-02", "telco": "Airtel", "outlet": "WB_NIR_004"},
+    {"victim_phone": "9876500016", "swap_date": "2023-03-02", "telco": "Airtel", "outlet": "WB_NIR_004"}
+  ]
+}

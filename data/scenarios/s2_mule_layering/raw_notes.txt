@@ -1,0 +1,135 @@
+INVESTIGATOR FIELD NOTES — CASE: CYBER/JHK-BR/2023/0082
+Station: Cyber Cell, Dhanbad + Jamui (Joint Investigation)
+Prepared by: SI Kamal Kumar Das (Dhanbad) & ASI Ranjeet Prasad (Jamui)
+Period: 05 April 2023 – 14 April 2023
+STATUS: DRAFT — DO NOT SHARE OUTSIDE UNIT
+
+=== BACKGROUND ===
+This case involves a multi-hop money mule layering network operating across
+Jharkhand and Bihar border. Unlike typical SIM-swap cases, victims here were
+cheated via fake job offers and investment schemes on WhatsApp/Telegram. No
+OTP redirection, no SIM swap confirmed. Victims willingly transferred money
+believing it was a registration fee or "demo trade deposit". Funds then moved
+through multiple fake accounts to obscure trail.
+
+Case received after Bank of India Jamui flagged suspicious pass-through
+activity on 5 accounts on 07-Apr-2023. Cross-referenced with complaints filed
+at cybercrime portal by 10 victims across 3 states.
+
+=== VICTIM COMPLAINTS SUMMARY ===
+
+1. Complaint dtd 05-Apr-2023, Rakesh Singh, mob: 98765 00101, Bihar.
+   Account BOI XXXXXXXX1101 debited Rs 90,000 on 05/04/23 at 10:14 AM.
+   Says he got WhatsApp message about a part-time data entry job. Asked to
+   deposit "registration fees" via UPI to victim101@ybl. Money gone instantly.
+   "Galti ho gayi sir, laga genuine company hai". Loss: Rs 90,000.
+
+2. Sushma Devi, mob +91-98765-00102, SBI account XXXXXXXX2202.
+   Loss Rs 78,000 on 05/04/23 at 10:31 AM.
+   Fake Telegram group "Earn Daily 2000". Sent to victim102@axl.
+   "Pehle Rs 500 mila tha commission, isliye vishwas hua".
+
+3. Hari Om Tiwari, 98765-00103, HDFC XXXXXXXX3303, Rs 1,05,000, 05-Apr.
+   Largest loss in wave 1. Fake stock trading platform link. UPI victim103@oksbi.
+   Login alert recvd showing debit at 10:48 AM on 05/04/23.
+
+4. Mamta Gupta, 98765 00104, UCO XXXXXXXX4404, Rs 68,000, 06-Apr.
+   Received Telegram link "Flipkart Warehouse job opening - deposit first".
+   Payment to victim104@paytm at 10:05 AM on 06/04/23.
+
+5. Pradeep Kumar Sao, +91-98765-00105, PNB XXXXXXXX5505, Rs 93,000, 06-Apr.
+   Fake investment "guaranteed 15% monthly return". UPI victim105@upi.
+   Txn at 10:22 AM on 06/04/23.
+
+6. Kamla Devi, 98765-00106, Canara XXXXXXXX6606, Rs 57,000, 06-Apr.
+   WhatsApp link for "Government scheme for SC/ST women entrepreneurs".
+   victim106@ybl used. Txn at 10:39 AM.
+
+7. Naresh Rajbhar, 98765 00107, Axis XXXXXXXX7707, Rs 1,20,000, 06-Apr.
+   This is highest single loss case. Victim was promised 3x return in
+   7 days on "crypto trading platform". UPI victim107@oksbi.
+   Txn at 11:02 AM on 06/04/23. Victim very educated, fell for professional-
+   looking fake website.
+
+8. Geeta Kumari, +91-98765-00108, BOI XXXXXXXX8808, Rs 82,000, 07-Apr.
+   Fake government job form fee. victim108@axl. Txn 10:11 AM.
+
+9. Sundar Lal Maurya, 98765 00109, Union Bank XXXXXXXX9909, Rs 88,000, 07-Apr.
+   "Digital marketing agency" registration. victim109@hdfc. Txn 10:29 AM.
+
+10. Kavita Singh, 98765-00110, ICICI XXXXXXXX0010, Rs 1,22,000, 07-Apr.
+    Largest overall loss. Fake "Amazon seller registration" — asked to deposit
+    for "warehouse space booking". victim110@upi. Txn 10:47 AM.
+
+=== ACCUSED / SUSPECT PROFILE ===
+
+PRIMARY ACCUSED (from bank freeze analysis + informer tip, Jamui):
+
+A1 — "AMAR SINGH RAJPUT", age ~42. Last known location: Patna, Bihar.
+     Mobile: 9876500061 (coordination only; does NOT call victims directly).
+     Suspected KINGPIN. All money eventually routed to his benami account.
+     SI note: "Yeh kingpin hai — sirf handlers se baat karta hai, khud kuch
+     direct nahi karta, bahut cautious hai".
+     Drain account: ACC_K2 = XXXXXXXX6100 (HDFC Patna).
+
+A2 — Priya Sahu, age ~28. Jamui district, Bihar. Mobile 9876500062.
+     Controls L3A mule and staging account ACC_H3 = XXXXXXXX3100.
+     Receives consolidated funds from L3A, forwards to kingpin.
+     HANDLER 1.
+
+A3 — Deepak Nishad, age ~31. Giridih, Jharkhand. Mobile 9876500063.
+     Controls L3B mule and staging account ACC_H4 = XXXXXXXX4100.
+     Receives consolidated funds from L3B, forwards to kingpin.
+     HANDLER 2.
+
+=== MULE ACCOUNT NETWORK (identified via bank freeze requests) ===
+
+Layer 1 (direct victim credits):
+  * ACC_L1A = XXXXXXXX1100 (Kotak Mahindra, fake name Ramesh Kumar Gupta)
+    Received from V101, V102, V103. Total: Rs 273,000.
+  * ACC_L1B = XXXXXXXX1200 (PayTM Payments Bank, name "Sunita Devi")
+    NOTE: same account also referred in one bank record as "Sunita Kumari" —
+    likely alias / clerical error in KYC. Same mobile 98765 00114 linked.
+    Received from V104, V105, V106, V107. Total: Rs 338,000.
+  * ACC_L1C = XXXXXXXX1300 (Airtel Payments Bank, name Ajit Bhushan — fake)
+    Received from V108, V109, V110. Total: Rs 292,000.
+
+Layer 2 (fan-out / layering):
+  * ACC_L2A = XXXXXXXX2100 (IPPB, benami)
+  * ACC_L2B = XXXXXXXX2200 (BOI Dhanbad, benami)
+  * ACC_L2C = XXXXXXXX2300 (SBI Giridih, benami)
+
+Layer 3 (consolidation):
+  * ACC_L3A = XXXXXXXX3000 (Union Bank, benami) → forwards to ACC_H3
+  * ACC_L3B = XXXXXXXX3001 (HDFC Bokaro, benami) → forwards to ACC_H4
+
+=== BANKING OBSERVATION: PASS-THROUGH ===
+All 8 mule accounts showed complete pass-through (ratio ~1.0). Dwell time
+per hop was under 30 minutes in all cases. Bank fraud desk confirmed this
+pattern is consistent with "mule layering to obscure UPI fraud trail."
+
+=== CALL RECORD OBSERVATIONS ===
+CDR analysis shows very few calls — unlike typical SIM swap cases.
+Coordination purely between accused:
+- Kingpin (9876500061) called Handler 1 (9876500062) on 03/04/23 at 08:10 AM.
+- Kingpin called Handler 2 (9876500063) on 03/04/23 at 08:18 AM.
+- Handler 1 called Kingpin back on 05/04/23 at 01:22 PM (post-wave 1 update).
+- Handler 2 called Kingpin on 07/04/23 at 01:48 PM.
+NO calls from any accused to any victim number found in CDR.
+
+=== DIGITAL EVIDENCE ===
+- IMEI 356789012345001 pings Patna area (BTS_PAT_01).
+- IMEI 356789012345002 pings Jamui, Bihar (BTS_JAM_04).
+- IMEI 356789012345003 pings Giridih, Jharkhand (BTS_GIR_02).
+
+=== FIELD NOTES (constable notebook, verbatim) ===
+- "Amar Singh Rajput ka phone 9876500061 hai — yahi kingpin suspicious hai"
+- "Priya Sahu 9876500062 Jamui — handler no 1"
+- "Deepak Nishad mob 98765 00063 Giridih"
+- "Sunita Devi / Sunita Kumari — ek hi insaan, dono naam milte hain record mein"
+- "Account ACC_L1B pe KYC mismatch — bank ne flag kiya hai"
+
+=== TOTAL ESTIMATED LOSS (from transaction records) ===
+All 10 victims combined: Rs 903,000
+Kingpin estimated to have received: Rs 812,700
+(Field estimate may differ slightly; use CSV as ground truth)

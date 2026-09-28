@@ -1,0 +1,160 @@
+# JAAL Case Brief
+## Case: {{ case_id }}  |  Generated: {{ generated_at }}
+
+> **DISCLAIMER: AI-assisted analysis. Requires verification by the investigating officer.
+> Roles are risk indicators only — not conclusions of guilt.
+> Legal sections are suggestions only — verify with the Investigating Officer before citing.**
+
+---
+
+## 1. Case Summary
+
+- **Case ID:** {{ case_id }}
+- **Primary Pattern:** {% if primary_pattern %}{{ primary_pattern.type }} (confidence: {{ "%.0f"|format(primary_pattern.confidence * 100) }}%){% else %}Not determined{% endif %}
+- **Total Patterns Detected:** {{ all_patterns|length }}
+- **Nodes in network:** {{ node_count }}
+- **Edges in network:** {{ edge_count }}
+
+{% if primary_pattern %}
+**Modus Operandi Indicator:** {{ primary_pattern.type }} detected.
+Reasons:
+{% for r in primary_pattern.reasons %}- {{ r }}
+{% endfor %}{% endif %}
+
+---
+
+## 2. Complainant / Victims
+
+| Node ID | Role | Loss (INR) | Evidence |
+|---------|------|-----------|----------|
+{% for rs in roles %}{% if rs.role == "VICTIM" %}| {{ rs.node_id }} | Suspected {{ rs.role }} | {% if totals.loss_inr %}{{ totals.loss_inr }}{% else %}—{% endif %} | {{ rs.why|join("; ") if rs.why else "—" }} |
+{% endif %}{% endfor %}
+
+{% if not roles or not (roles|selectattr("role","equalto","VICTIM")|list) %}
+No victim-role nodes identified in this graph.
+{% endif %}
+
+---
+
+## 3. Accused & Roles (Suspected — Indicators Only)
+
+| Node ID | Suspected Role | Score | Evidence Indicators |
+|---------|---------------|-------|-------------------|
+{% for rs in roles %}{% if rs.role != "UNKNOWN" and rs.role != "VICTIM" %}| {{ rs.node_id }} | Suspected {{ rs.role }} | {{ "%.2f"|format(rs.score) }} | {{ rs.why|join("; ") if rs.why else "—" }} |
+{% endif %}{% endfor %}
+
+---
+
+## 4. Chronological Timeline
+
+| Timestamp | Event |
+|-----------|-------|
+{% for ev in timeline %}| {{ ev.ts }} | {{ ev.event }} |
+{% endfor %}
+
+{% if not timeline %}No timestamped events found in this graph.{% endif %}
+
+---
+
+## 5. Financial Trail
+
+| Edge | From | To | Amount (INR) | Timestamp |
+|------|------|----|-------------|-----------|
+{% for edge in transfer_edges %}| {{ edge.id }} | {{ edge.source }} | {{ edge.target }} | {{ edge.attrs.amount if edge.attrs.amount is defined else "—" }} | {{ edge.attrs.ts if edge.attrs.ts is defined else "—" }} |
+{% endfor %}
+
+{% if not transfer_edges %}No financial transfer edges found.{% endif %}
+
+---
+
+## 6. Digital Evidence
+
+### Phone Numbers
+{% for n in nodes_by_type.PHONE %}
+- `{{ n.label }}` (ID: {{ n.id }}) — Sources: {{ n.sources|join(", ") }}
+{% endfor %}
+{% if not nodes_by_type.PHONE %}None identified.{% endif %}
+
+### Devices / IMEIs
+{% for n in nodes_by_type.DEVICE %}
+- `{{ n.label }}` (ID: {{ n.id }}){% if n.attrs.imei %}, IMEI: `{{ n.attrs.imei }}`{% endif %} — Sources: {{ n.sources|join(", ") }}
+{% endfor %}
+{% if not nodes_by_type.DEVICE %}None identified.{% endif %}
+
+### Bank Accounts
+{% for n in nodes_by_type.BANK_ACCOUNT %}
+- `{{ n.label }}` (ID: {{ n.id }}){% if n.attrs.bank %}, Bank: {{ n.attrs.bank }}{% endif %} — Sources: {{ n.sources|join(", ") }}
+{% endfor %}
+{% if not nodes_by_type.BANK_ACCOUNT %}None identified.{% endif %}
+
+### UPI IDs
+{% for n in nodes_by_type.UPI_ID %}
+- `{{ n.label }}` (ID: {{ n.id }}) — Sources: {{ n.sources|join(", ") }}
+{% endfor %}
+{% if not nodes_by_type.UPI_ID %}None identified.{% endif %}
+
+### IP Addresses
+{% for n in nodes_by_type.IP %}
+- `{{ n.label }}` (ID: {{ n.id }}) — Sources: {{ n.sources|join(", ") }}
+{% endfor %}
+{% if not nodes_by_type.IP %}None identified.{% endif %}
+
+---
+
+## 7. Fraud Pattern Analysis
+
+{% for pm in all_patterns %}
+### {{ pm.type }} — Confidence {{ "%.0f"|format(pm.confidence * 100) }}%
+{% for r in pm.reasons %}- {{ r }}
+{% endfor %}
+
+{% endfor %}
+{% if not all_patterns %}No patterns detected above confidence threshold.{% endif %}
+
+---
+
+## 8. Suggested Legal Sections *(suggested — verify with IO)*
+
+Based on the detected patterns, the following sections may be relevant:
+
+- **IT Act §66C** — Identity theft (if SIM swap / impersonation indicators present)
+- **IT Act §66D** — Cheating by personation using computer resource
+- **BNS §318** — Cheating (suspected financial fraud)
+- **BNS §61** — Criminal conspiracy (if network of accused identified)
+
+*These are indicator-based suggestions only. The Investigating Officer must verify applicability.*
+
+---
+
+## 9. Recommended Actions *(prioritized)*
+
+1. **Freeze accounts** — All bank accounts with MULE or KINGPIN role indicators
+2. **Block SIMs** — Phone numbers associated with OPERATOR or SIM_SWAP indicators
+3. **Preserve digital evidence** — Secure call records, transaction logs, device logs
+4. **Issue notices** — Section 91 CrPC/BNSS notices to banks/telecom providers
+5. **Arrest priority** — Nodes with KINGPIN role indicator (highest score)
+6. **Coordinate with Cyber Cell** — For IP tracing and device forensics
+
+---
+
+## 10. Totals
+
+| Metric | Value |
+|--------|-------|
+| Estimated Loss (INR) | {{ totals.loss_inr if totals.loss_inr else "—" }} |
+| Suspected Victims | {{ totals.victims if totals.victims else "—" }} |
+| Suspected Mules | {{ totals.mules if totals.mules else "—" }} |
+| Suspected Operators | {{ totals.operators if totals.operators else "—" }} |
+| Suspected Handlers | {{ totals.handlers if totals.handlers else "—" }} |
+
+---
+
+## 11. Annexures
+
+- A. Full node list with evidence references
+- B. Full edge list with evidence references
+- C. Raw analysis JSON (attached on request)
+
+---
+
+*Report generated by JAAL (Fraud Network Intelligence System). AI-assisted. Requires verification by the Investigating Officer.*

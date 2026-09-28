@@ -1,0 +1,218 @@
+{
+  "case_id": "CASE-2023-0047",
+  "case_title": "Jamtara SIM-Swap UPI Fraud Ring",
+  "created_at": "2023-03-15T09:30:00",
+  "scenario": "s1_simswap_jamtara",
+  "graph": {
+    "nodes": [
+      {
+        "id": "PE_VIKRAM",
+        "type": "PERSON",
+        "label": "Vikram S.",
+        "attrs": { "name": "Vikram S.", "location": "Jamtara, JH", "arrested": false },
+        "role": "KINGPIN",
+        "risk_score": 0.92,
+        "sources": ["raw_notes.txt#p1", "call_logs.csv#L3"]
+      },
+      {
+        "id": "PE_ROHIT",
+        "type": "PERSON",
+        "label": "Rohit M.",
+        "attrs": { "name": "Rohit M.", "location": "Dhanbad, JH" },
+        "role": "HANDLER",
+        "risk_score": 0.78,
+        "sources": ["raw_notes.txt#p2", "transactions.csv#L8"]
+      },
+      {
+        "id": "PE_SANJAY",
+        "type": "PERSON",
+        "label": "Sanjay P.",
+        "attrs": { "name": "Sanjay P.", "location": "Bokaro, JH" },
+        "role": "HANDLER",
+        "risk_score": 0.74,
+        "sources": ["raw_notes.txt#p3"]
+      },
+      {
+        "id": "PE_RAJU",
+        "type": "PERSON",
+        "label": "Raju K.",
+        "attrs": { "name": "Raju K.", "location": "Giridih, JH" },
+        "role": "MULE",
+        "risk_score": 0.61,
+        "sources": ["transactions.csv#L14"]
+      },
+      {
+        "id": "PE_PRIYA",
+        "type": "PERSON",
+        "label": "Priya D.",
+        "attrs": { "name": "Priya D.", "location": "Delhi" },
+        "role": "VICTIM",
+        "risk_score": 0.10,
+        "sources": ["raw_notes.txt#p5"]
+      },
+      {
+        "id": "PE_AMIT",
+        "type": "PERSON",
+        "label": "Amit N.",
+        "attrs": { "name": "Amit N.", "location": "Mumbai" },
+        "role": "VICTIM",
+        "risk_score": 0.12,
+        "sources": ["raw_notes.txt#p6"]
+      },
+      {
+        "id": "PE_CALLER1",
+        "type": "PERSON",
+        "label": "Caller X1",
+        "attrs": { "name": "Unknown", "alias": "Caller X1" },
+        "role": "OPERATOR",
+        "risk_score": 0.65,
+        "sources": ["call_logs.csv#L7"]
+      },
+      {
+        "id": "PH_9876500001",
+        "type": "PHONE",
+        "label": "XXXXXX00001",
+        "attrs": { "number": "XXXXXX00001", "sim_swapped_on": "2023-03-02", "carrier": "Airtel" },
+        "role": "UNKNOWN",
+        "risk_score": 0.55,
+        "sources": ["call_logs.csv#L14"]
+      },
+      {
+        "id": "PH_9876500002",
+        "type": "PHONE",
+        "label": "XXXXXX00002",
+        "attrs": { "number": "XXXXXX00002", "carrier": "Jio" },
+        "role": "UNKNOWN",
+        "risk_score": 0.48,
+        "sources": ["call_logs.csv#L21"]
+      },
+      {
+        "id": "DEV_IMEI001",
+        "type": "DEVICE",
+        "label": "Device-IMEI001",
+        "attrs": { "imei": "XXXXXXXX01234", "model": "Redmi 9", "first_seen": "2023-02-28" },
+        "role": "UNKNOWN",
+        "risk_score": 0.50,
+        "sources": ["call_logs.csv#L14"]
+      },
+      {
+        "id": "BA_VIKRAM_HDFC",
+        "type": "BANK_ACCOUNT",
+        "label": "HDFC XXXXXX1234",
+        "attrs": { "bank": "HDFC", "account": "XXXXXX1234", "ifsc": "HDFC0001234", "upi": "vikram@hdfc" },
+        "role": "KINGPIN",
+        "risk_score": 0.88,
+        "sources": ["transactions.csv#L1"]
+      },
+      {
+        "id": "BA_ROHIT_SBI",
+        "type": "BANK_ACCOUNT",
+        "label": "SBI XXXXXX5678",
+        "attrs": { "bank": "SBI", "account": "XXXXXX5678", "ifsc": "SBIN0005678" },
+        "role": "HANDLER",
+        "risk_score": 0.72,
+        "sources": ["transactions.csv#L5"]
+      },
+      {
+        "id": "BA_RAJU_PNB",
+        "type": "BANK_ACCOUNT",
+        "label": "PNB XXXXXX9999",
+        "attrs": { "bank": "PNB", "account": "XXXXXX9999", "ifsc": "PUNB0009999" },
+        "role": "MULE",
+        "risk_score": 0.60,
+        "sources": ["transactions.csv#L12"]
+      },
+      {
+        "id": "BA_PRIYA_ICICI",
+        "type": "BANK_ACCOUNT",
+        "label": "ICICI XXXXXX3321",
+        "attrs": { "bank": "ICICI", "account": "XXXXXX3321", "upi": "priya@icici" },
+        "role": "VICTIM",
+        "risk_score": 0.05,
+        "sources": ["transactions.csv#L18"]
+      },
+      {
+        "id": "BA_AMIT_AXIS",
+        "type": "BANK_ACCOUNT",
+        "label": "Axis XXXXXX7742",
+        "attrs": { "bank": "Axis Bank", "account": "XXXXXX7742", "upi": "amit@axisb" },
+        "role": "VICTIM",
+        "risk_score": 0.05,
+        "sources": ["transactions.csv#L22"]
+      }
+    ],
+    "edges": [
+      { "id": "E01", "source": "PE_VIKRAM", "target": "BA_VIKRAM_HDFC", "type": "OWNS", "attrs": {}, "evidence": "transactions.csv#L1" },
+      { "id": "E02", "source": "PE_ROHIT", "target": "BA_ROHIT_SBI", "type": "OWNS", "attrs": {}, "evidence": "transactions.csv#L5" },
+      { "id": "E03", "source": "PE_RAJU", "target": "BA_RAJU_PNB", "type": "OWNS", "attrs": {}, "evidence": "transactions.csv#L12" },
+      { "id": "E04", "source": "PE_PRIYA", "target": "BA_PRIYA_ICICI", "type": "OWNS", "attrs": {}, "evidence": "transactions.csv#L18" },
+      { "id": "E05", "source": "PE_AMIT", "target": "BA_AMIT_AXIS", "type": "OWNS", "attrs": {}, "evidence": "transactions.csv#L22" },
+      { "id": "E06", "source": "PE_VIKRAM", "target": "PH_9876500001", "type": "OWNS", "attrs": {}, "evidence": "call_logs.csv#L3" },
+      { "id": "E07", "source": "PH_9876500001", "target": "DEV_IMEI001", "type": "SIM_IN_DEVICE", "attrs": {}, "evidence": "call_logs.csv#L14" },
+      { "id": "E08", "source": "BA_PRIYA_ICICI", "target": "BA_ROHIT_SBI", "type": "TRANSFERRED_TO", "attrs": { "amount": 85000, "ts": "2023-03-02T11:42:00" }, "evidence": "transactions.csv#L18" },
+      { "id": "E09", "source": "BA_AMIT_AXIS", "target": "BA_ROHIT_SBI", "type": "TRANSFERRED_TO", "attrs": { "amount": 120000, "ts": "2023-03-03T09:15:00" }, "evidence": "transactions.csv#L22" },
+      { "id": "E10", "source": "BA_ROHIT_SBI", "target": "BA_RAJU_PNB", "type": "TRANSFERRED_TO", "attrs": { "amount": 160000, "ts": "2023-03-03T14:00:00" }, "evidence": "transactions.csv#L8" },
+      { "id": "E11", "source": "BA_RAJU_PNB", "target": "BA_VIKRAM_HDFC", "type": "TRANSFERRED_TO", "attrs": { "amount": 145000, "ts": "2023-03-04T10:30:00" }, "evidence": "transactions.csv#L14" },
+      { "id": "E12", "source": "PE_CALLER1", "target": "PE_PRIYA", "type": "CALLED", "attrs": { "duration_s": 240, "ts": "2023-03-02T10:55:00" }, "evidence": "call_logs.csv#L7" },
+      { "id": "E13", "source": "PE_CALLER1", "target": "PE_AMIT", "type": "CALLED", "attrs": { "duration_s": 180, "ts": "2023-03-03T08:40:00" }, "evidence": "call_logs.csv#L9" },
+      { "id": "E14", "source": "PE_ROHIT", "target": "PE_VIKRAM", "type": "CALLED", "attrs": { "duration_s": 95, "ts": "2023-03-03T14:10:00" }, "evidence": "call_logs.csv#L21" },
+      { "id": "E15", "source": "PE_VIKRAM", "target": "PE_ROHIT", "type": "CALLED", "attrs": { "duration_s": 60, "ts": "2023-03-04T09:00:00" }, "evidence": "call_logs.csv#L25" },
+      { "id": "E16", "source": "PE_SANJAY", "target": "BA_ROHIT_SBI", "type": "TRANSFERRED_TO", "attrs": { "amount": 50000, "ts": "2023-03-05T11:00:00" }, "evidence": "transactions.csv#L28" }
+    ]
+  },
+  "analysis": {
+    "pattern": {
+      "type": "SIM_SWAP",
+      "label": "SIM-Swap + Mule Layering",
+      "secondary": ["MULE_LAYERING"],
+      "confidence": 0.91,
+      "reasons": [
+        "SIM replaced 4× in 30 days on XXXXXX00001",
+        "New device login 2 min after SIM swap (DEV_IMEI001)",
+        "OTP redirected: ICICI & Axis OTP SMS intercepted",
+        "Funds layered through 2 mule accounts before reaching kingpin",
+        "Pass-through dwell time < 30 min on all mule accounts"
+      ]
+    },
+    "roles": [
+      { "node_id": "PE_VIKRAM", "role": "KINGPIN", "score": 0.92, "why": ["Terminal sink of 71% of total funds", "High betweenness centrality (0.88)", "Contacted only by handlers — no direct victim contact"] },
+      { "node_id": "PE_ROHIT", "role": "HANDLER", "score": 0.78, "why": ["Connects 2 mules and kingpin", "Receives partial cash from multiple sources", "High betweenness (0.62)"] },
+      { "node_id": "PE_SANJAY", "role": "HANDLER", "score": 0.74, "why": ["Transfers directly to handler account", "Shared device with known operator"] },
+      { "node_id": "PE_RAJU", "role": "MULE", "score": 0.61, "why": ["Fan-in from handler, fan-out to kingpin", "Pass-through ratio ~0.97", "Dwell time 23 min"] },
+      { "node_id": "PE_CALLER1", "role": "OPERATOR", "score": 0.65, "why": ["Calls made to 2+ victims", "Call duration consistent with vishing script (3-4 min)", "Used shared SIM"] },
+      { "node_id": "PE_PRIYA", "role": "VICTIM", "score": 1.0, "why": ["Received vishing call; OTP shared; funds debited without consent"] },
+      { "node_id": "PE_AMIT", "role": "VICTIM", "score": 1.0, "why": ["Received vishing call; OTP shared; funds debited without consent"] }
+    ],
+    "hierarchy": {
+      "levels": [
+        ["PE_VIKRAM"],
+        ["PE_ROHIT", "PE_SANJAY"],
+        ["PE_RAJU", "PE_CALLER1"],
+        ["PE_PRIYA", "PE_AMIT"]
+      ]
+    },
+    "totals": {
+      "loss_inr": 1250000,
+      "victims": 14,
+      "mules": 6,
+      "sim_swaps": 4,
+      "accounts_involved": 5
+    },
+    "timeline": [
+      { "ts": "2023-03-01T10:00:00", "event": "First SIM swap request on XXXXXX00001 (Airtel store, Jamtara)" },
+      { "ts": "2023-03-02T10:55:00", "event": "Vishing call to Priya D. — KYC pretext (240 sec)" },
+      { "ts": "2023-03-02T11:38:00", "event": "OTP intercepted; UPI PIN reset on priya@icici" },
+      { "ts": "2023-03-02T11:42:00", "event": "₹85,000 transferred ICICI→SBI (Rohit's mule)" },
+      { "ts": "2023-03-03T08:40:00", "event": "Vishing call to Amit N. — fake bank alert (180 sec)" },
+      { "ts": "2023-03-03T09:15:00", "event": "₹1,20,000 transferred Axis→SBI (Rohit's mule)" },
+      { "ts": "2023-03-03T14:00:00", "event": "₹1,60,000 moved SBI→PNB (Raju's mule, dwell 23 min)" },
+      { "ts": "2023-03-04T10:30:00", "event": "₹1,45,000 reaches HDFC XXXXXX1234 (Vikram — kingpin sink)" },
+      { "ts": "2023-03-05T11:00:00", "event": "Additional ₹50,000 from Sanjay's account to Rohit's mule" }
+    ]
+  },
+  "scenarios": {
+    "s1_simswap_jamtara": "Jamtara SIM-Swap UPI Fraud Ring",
+    "s2_mule_layering": "Multi-Layer Mule Network — Delhi NCR",
+    "s3_vishing_kyc": "Vishing + KYC Fraud — Pan-India Call Centre"
+  }
+}

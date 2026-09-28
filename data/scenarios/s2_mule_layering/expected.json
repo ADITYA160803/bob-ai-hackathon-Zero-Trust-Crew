@@ -1,0 +1,604 @@
+{
+  "scenario": "s2_mule_layering",
+  "description": "Multi-hop mule layering ring — fake job/investment UPI fraud, Jharkhand/Bihar, April 2023",
+  "pattern": {
+    "type": "MULE_LAYERING",
+    "secondary": [],
+    "confidence": 0.91,
+    "reasons": [
+      "No SIM swap or OTP redirection observed — victims deceived via fake job/investment offers",
+      "Three-layer mule account chain (L1 fan-in → L2 fan-out → L3 consolidation)",
+      "Pass-through ratio ~1.00 on all 8 mule accounts; dwell time < 30 min per hop",
+      "Fan-in: each L1 mule receives from 3-4 victims",
+      "Fan-out: each L1 mule splits to 2 L2 accounts to obscure trace",
+      "No calls from accused phones to any victim number in CDR",
+      "Coordination only between kingpin and handlers via brief calls"
+    ]
+  },
+  "roles": [
+    {
+      "node_id": "PE_AMAR",
+      "label": "Amar Singh Rajput",
+      "role": "KINGPIN",
+      "score": 0.91,
+      "why": [
+        "Terminal sink of 90.0% of total fraud proceeds (INR 812,700 of 903,000)",
+        "Zero direct victim contacts in call_logs.csv",
+        "Contacts only handlers PE_PRIYA and PE_DEEPAK",
+        "Cell pings exclusively at BTS_PAT_01 (Patna)",
+        "Identified by informer tip + bank freeze cross-reference"
+      ],
+      "phones": [
+        "9876500061"
+      ],
+      "accounts": [
+        "ACC_K2"
+      ],
+      "imei": "356789012345001",
+      "sources": [
+        "raw_notes.txt#L68",
+        "call_logs.csv#L2",
+        "call_logs.csv#L3",
+        "transactions.csv#L23"
+      ]
+    },
+    {
+      "node_id": "PE_PRIYA",
+      "label": "Priya Sahu",
+      "role": "HANDLER",
+      "score": 0.84,
+      "why": [
+        "Controls staging account ACC_H3 receiving INR 573,400 from L3A mule",
+        "Forwards INR 516,060 (90%) to kingpin ACC_K2",
+        "Receives check-in calls from kingpin 9876500061",
+        "Cell pings at BTS_JAM_04 (Jamui, Bihar)"
+      ],
+      "phones": [
+        "9876500062"
+      ],
+      "accounts": [
+        "ACC_H3"
+      ],
+      "imei": "356789012345002",
+      "sources": [
+        "raw_notes.txt#L75",
+        "call_logs.csv#L6",
+        "transactions.csv#L21",
+        "transactions.csv#L23"
+      ]
+    },
+    {
+      "node_id": "PE_DEEPAK",
+      "label": "Deepak Nishad",
+      "role": "HANDLER",
+      "score": 0.82,
+      "why": [
+        "Controls staging account ACC_H4 receiving INR 329,600 from L3B mule",
+        "Forwards INR 296,640 (90%) to kingpin ACC_K2",
+        "Cell pings at BTS_GIR_02 (Giridih, Jharkhand)"
+      ],
+      "phones": [
+        "9876500063"
+      ],
+      "accounts": [
+        "ACC_H4"
+      ],
+      "imei": "356789012345003",
+      "sources": [
+        "raw_notes.txt#L80",
+        "call_logs.csv#L8",
+        "transactions.csv#L22",
+        "transactions.csv#L25"
+      ]
+    },
+    {
+      "node_id": "BA_L1A",
+      "label": "L1 Mule ACC_L1A (XXXXXXXX1100)",
+      "role": "MULE",
+      "score": 0.97,
+      "why": [
+        "Received INR 273,000 from victims V101, V102, V103 (fan-in)",
+        "Forwarded full amount to L2 mules L2A and L2B within 20 min",
+        "Pass-through ratio: 1.00; max dwell < 30 min"
+      ],
+      "accounts": [
+        "ACC_L1A"
+      ],
+      "sources": [
+        "raw_notes.txt#L88",
+        "transactions.csv#L2",
+        "transactions.csv#L3",
+        "transactions.csv#L4",
+        "transactions.csv#L5",
+        "transactions.csv#L6"
+      ]
+    },
+    {
+      "node_id": "BA_L1B",
+      "label": "L1 Mule ACC_L1B (XXXXXXXX1200) — Sunita Devi / Sunita Kumari",
+      "role": "MULE",
+      "score": 0.97,
+      "why": [
+        "Received INR 338,000 from victims V104-V107 (fan-in, 4 victims)",
+        "Forwarded full amount to L2 mules L2B and L2C within 26 min",
+        "Account KYC shows name variant: 'Sunita Devi' / 'Sunita Kumari'",
+        "Pass-through ratio: 1.00; max dwell < 30 min"
+      ],
+      "accounts": [
+        "ACC_L1B"
+      ],
+      "phones": [
+        "9876500114"
+      ],
+      "sources": [
+        "raw_notes.txt#L90",
+        "transactions.csv#L7",
+        "transactions.csv#L8",
+        "transactions.csv#L9",
+        "transactions.csv#L10",
+        "transactions.csv#L11",
+        "transactions.csv#L12"
+      ]
+    },
+    {
+      "node_id": "BA_L1C",
+      "label": "L1 Mule ACC_L1C (XXXXXXXX1300)",
+      "role": "MULE",
+      "score": 0.97,
+      "why": [
+        "Received INR 292,000 from victims V108, V109, V110 (fan-in)",
+        "Forwarded full amount to L2 mules L2A and L2C within 25 min",
+        "Pass-through ratio: 1.00; max dwell < 30 min"
+      ],
+      "accounts": [
+        "ACC_L1C"
+      ],
+      "sources": [
+        "raw_notes.txt#L94",
+        "transactions.csv#L13",
+        "transactions.csv#L14",
+        "transactions.csv#L15",
+        "transactions.csv#L16",
+        "transactions.csv#L17"
+      ]
+    },
+    {
+      "node_id": "BA_L2A",
+      "label": "L2 Mule ACC_L2A (XXXXXXXX2100)",
+      "role": "MULE",
+      "score": 0.97,
+      "why": [
+        "Received portions from L1A and L1C; total INR 295,200",
+        "Forwarded full amount to L3A within 25 min of last credit",
+        "Pass-through ratio: 1.00"
+      ],
+      "accounts": [
+        "ACC_L2A"
+      ],
+      "sources": [
+        "raw_notes.txt#L98",
+        "transactions.csv#L5",
+        "transactions.csv#L16",
+        "transactions.csv#L18"
+      ]
+    },
+    {
+      "node_id": "BA_L2B",
+      "label": "L2 Mule ACC_L2B (XXXXXXXX2200)",
+      "role": "MULE",
+      "score": 0.97,
+      "why": [
+        "Received portions from L1A and L1B; total INR 278,200",
+        "Forwarded full amount to L3A within 25 min of last credit",
+        "Pass-through ratio: 1.00"
+      ],
+      "accounts": [
+        "ACC_L2B"
+      ],
+      "sources": [
+        "raw_notes.txt#L99",
+        "transactions.csv#L6",
+        "transactions.csv#L11",
+        "transactions.csv#L19"
+      ]
+    },
+    {
+      "node_id": "BA_L2C",
+      "label": "L2 Mule ACC_L2C (XXXXXXXX2300)",
+      "role": "MULE",
+      "score": 0.97,
+      "why": [
+        "Received portions from L1B and L1C; total INR 329,600",
+        "Forwarded full amount to L3B within 26 min of last credit",
+        "Pass-through ratio: 1.00"
+      ],
+      "accounts": [
+        "ACC_L2C"
+      ],
+      "sources": [
+        "raw_notes.txt#L100",
+        "transactions.csv#L12",
+        "transactions.csv#L17",
+        "transactions.csv#L20"
+      ]
+    },
+    {
+      "node_id": "BA_L3A",
+      "label": "L3 Mule ACC_L3A (XXXXXXXX3000)",
+      "role": "MULE",
+      "score": 0.97,
+      "why": [
+        "Receives from L2A + L2B; total INR 573,400",
+        "Forwards full amount to handler ACC_H3 within 25 min",
+        "Pass-through ratio: 1.00"
+      ],
+      "accounts": [
+        "ACC_L3A"
+      ],
+      "sources": [
+        "raw_notes.txt#L103",
+        "transactions.csv#L18",
+        "transactions.csv#L19",
+        "transactions.csv#L21"
+      ]
+    },
+    {
+      "node_id": "BA_L3B",
+      "label": "L3 Mule ACC_L3B (XXXXXXXX3001)",
+      "role": "MULE",
+      "score": 0.97,
+      "why": [
+        "Receives from L2C; total INR 329,600",
+        "Forwards full amount to handler ACC_H4 within 25 min",
+        "Pass-through ratio: 1.00"
+      ],
+      "accounts": [
+        "ACC_L3B"
+      ],
+      "sources": [
+        "raw_notes.txt#L104",
+        "transactions.csv#L20",
+        "transactions.csv#L22"
+      ]
+    },
+    {
+      "node_id": "VIC_ACC_V101",
+      "label": "Rakesh Singh",
+      "role": "VICTIM",
+      "score": 1.0,
+      "why": [
+        "Lost INR 90,000 to fake job/investment scam"
+      ],
+      "accounts": [
+        "ACC_V101"
+      ],
+      "phones": [
+        "9876500101"
+      ],
+      "sources": [
+        "raw_notes.txt#L21"
+      ]
+    },
+    {
+      "node_id": "VIC_ACC_V102",
+      "label": "Sushma Devi",
+      "role": "VICTIM",
+      "score": 1.0,
+      "why": [
+        "Lost INR 78,000 to fake job/investment scam"
+      ],
+      "accounts": [
+        "ACC_V102"
+      ],
+      "phones": [
+        "9876500102"
+      ],
+      "sources": [
+        "raw_notes.txt#LNone"
+      ]
+    },
+    {
+      "node_id": "VIC_ACC_V103",
+      "label": "Hari Om Tiwari",
+      "role": "VICTIM",
+      "score": 1.0,
+      "why": [
+        "Lost INR 105,000 to fake job/investment scam"
+      ],
+      "accounts": [
+        "ACC_V103"
+      ],
+      "phones": [
+        "9876500103"
+      ],
+      "sources": [
+        "raw_notes.txt#LNone"
+      ]
+    },
+    {
+      "node_id": "VIC_ACC_V104",
+      "label": "Mamta Gupta",
+      "role": "VICTIM",
+      "score": 1.0,
+      "why": [
+        "Lost INR 68,000 to fake job/investment scam"
+      ],
+      "accounts": [
+        "ACC_V104"
+      ],
+      "phones": [
+        "9876500104"
+      ],
+      "sources": [
+        "raw_notes.txt#L36"
+      ]
+    },
+    {
+      "node_id": "VIC_ACC_V105",
+      "label": "Pradeep Kumar Sao",
+      "role": "VICTIM",
+      "score": 1.0,
+      "why": [
+        "Lost INR 93,000 to fake job/investment scam"
+      ],
+      "accounts": [
+        "ACC_V105"
+      ],
+      "phones": [
+        "9876500105"
+      ],
+      "sources": [
+        "raw_notes.txt#LNone"
+      ]
+    },
+    {
+      "node_id": "VIC_ACC_V106",
+      "label": "Kamla Devi",
+      "role": "VICTIM",
+      "score": 1.0,
+      "why": [
+        "Lost INR 57,000 to fake job/investment scam"
+      ],
+      "accounts": [
+        "ACC_V106"
+      ],
+      "phones": [
+        "9876500106"
+      ],
+      "sources": [
+        "raw_notes.txt#LNone"
+      ]
+    },
+    {
+      "node_id": "VIC_ACC_V107",
+      "label": "Naresh Rajbhar",
+      "role": "VICTIM",
+      "score": 1.0,
+      "why": [
+        "Lost INR 120,000 to fake job/investment scam"
+      ],
+      "accounts": [
+        "ACC_V107"
+      ],
+      "phones": [
+        "9876500107"
+      ],
+      "sources": [
+        "raw_notes.txt#L48"
+      ]
+    },
+    {
+      "node_id": "VIC_ACC_V108",
+      "label": "Geeta Kumari",
+      "role": "VICTIM",
+      "score": 1.0,
+      "why": [
+        "Lost INR 82,000 to fake job/investment scam"
+      ],
+      "accounts": [
+        "ACC_V108"
+      ],
+      "phones": [
+        "9876500108"
+      ],
+      "sources": [
+        "raw_notes.txt#LNone"
+      ]
+    },
+    {
+      "node_id": "VIC_ACC_V109",
+      "label": "Sundar Lal Maurya",
+      "role": "VICTIM",
+      "score": 1.0,
+      "why": [
+        "Lost INR 88,000 to fake job/investment scam"
+      ],
+      "accounts": [
+        "ACC_V109"
+      ],
+      "phones": [
+        "9876500109"
+      ],
+      "sources": [
+        "raw_notes.txt#L57"
+      ]
+    },
+    {
+      "node_id": "VIC_ACC_V110",
+      "label": "Kavita Singh",
+      "role": "VICTIM",
+      "score": 1.0,
+      "why": [
+        "Lost INR 122,000 to fake job/investment scam"
+      ],
+      "accounts": [
+        "ACC_V110"
+      ],
+      "phones": [
+        "9876500110"
+      ],
+      "sources": [
+        "raw_notes.txt#LNone"
+      ]
+    }
+  ],
+  "hierarchy": {
+    "levels": [
+      [
+        "PE_AMAR"
+      ],
+      [
+        "PE_PRIYA",
+        "PE_DEEPAK"
+      ],
+      [
+        "BA_L3A",
+        "BA_L3B"
+      ],
+      [
+        "BA_L2A",
+        "BA_L2B",
+        "BA_L2C"
+      ],
+      [
+        "BA_L1A",
+        "BA_L1B",
+        "BA_L1C"
+      ],
+      [
+        "ACC_V101",
+        "ACC_V102",
+        "ACC_V103",
+        "ACC_V104",
+        "ACC_V105",
+        "ACC_V106",
+        "ACC_V107",
+        "ACC_V108",
+        "ACC_V109",
+        "ACC_V110"
+      ]
+    ]
+  },
+  "totals": {
+    "loss_inr": 903000,
+    "victims": 10,
+    "mules": 8,
+    "handlers": 2,
+    "operators": 0,
+    "kingpin_received_inr": 812700,
+    "kingpin_share_pct": 90.0,
+    "h3_received_inr": 573400,
+    "h3_forwarded_inr": 516060,
+    "h4_received_inr": 329600,
+    "h4_forwarded_inr": 296640,
+    "txn_row_counts": {
+      "victim_to_mule": 10,
+      "mule_to_handler": 11,
+      "handler_to_kingpin": 4,
+      "total_data_rows": 25
+    }
+  },
+  "timeline": [
+    {
+      "ts": "2023-04-03T08:10:00",
+      "event": "Kingpin (9876500061) briefs Handler 1 (9876500062) — operation prep",
+      "source": "call_logs.csv#L2"
+    },
+    {
+      "ts": "2023-04-03T08:18:00",
+      "event": "Kingpin briefs Handler 2 (9876500063)",
+      "source": "call_logs.csv#L3"
+    },
+    {
+      "ts": "2023-04-05T10:14:00",
+      "event": "Wave 1 begins: V101 debited INR 90,000 → ACC_L1A",
+      "source": "transactions.csv#L2"
+    },
+    {
+      "ts": "2023-04-05T10:48:00",
+      "event": "Last Wave 1 victim: V103 debited INR 105,000 → ACC_L1A",
+      "source": "transactions.csv#L4"
+    },
+    {
+      "ts": "2023-04-05T11:08:00",
+      "event": "L1A forwards INR 163,800 to L2A (fan-out hop 1)",
+      "source": "transactions.csv#L5"
+    },
+    {
+      "ts": "2023-04-06T10:05:00",
+      "event": "Wave 2 begins: V104 debited INR 68,000 → ACC_L1B",
+      "source": "transactions.csv#L7"
+    },
+    {
+      "ts": "2023-04-07T10:11:00",
+      "event": "Wave 3 begins: V108 debited INR 82,000 → ACC_L1C",
+      "source": "transactions.csv#L13"
+    },
+    {
+      "ts": "2023-04-06T11:53:00",
+      "event": "L2B consolidates INR 278,200 into L3A",
+      "source": "transactions.csv#L19"
+    },
+    {
+      "ts": "2023-04-07T12:02:00",
+      "event": "L3A delivers INR 573,400 to Handler 1 staging account ACC_H3",
+      "source": "transactions.csv#L21"
+    },
+    {
+      "ts": "2023-04-08T09:30:00",
+      "event": "Handler 1 sends first tranche INR 283,833 to kingpin ACC_K2",
+      "source": "transactions.csv#L23"
+    },
+    {
+      "ts": "2023-04-09T11:00:00",
+      "event": "Final kingpin receipt — operation complete. Total received INR 812,700",
+      "source": "transactions.csv#L26"
+    }
+  ],
+  "name_variants": [
+    {
+      "canonical": "BA_L1B",
+      "canonical_label": "Sunita Devi",
+      "variants": [
+        {
+          "text": "Sunita Devi",
+          "note": "Name as registered on L1B PayTM Payments Bank KYC",
+          "lines": [
+            "raw_notes.txt#L90"
+          ]
+        },
+        {
+          "text": "Sunita Kumari",
+          "note": "Alternate name found in one bank transaction record — same mobile 98765 00114",
+          "lines": [
+            "raw_notes.txt#L91"
+          ]
+        },
+        {
+          "text": "Sunita Devi / Sunita Kumari",
+          "note": "Verbatim field note on name mismatch",
+          "lines": [
+            "raw_notes.txt#L129"
+          ]
+        }
+      ]
+    }
+  ],
+  "imei_device_map": [
+    {
+      "imei": "356789012345001",
+      "suspect": "PE_AMAR",
+      "location": "BTS_PAT_01"
+    },
+    {
+      "imei": "356789012345002",
+      "suspect": "PE_PRIYA",
+      "location": "BTS_JAM_04"
+    },
+    {
+      "imei": "356789012345003",
+      "suspect": "PE_DEEPAK",
+      "location": "BTS_GIR_02"
+    }
+  ]
+}
