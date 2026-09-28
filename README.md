@@ -8,6 +8,33 @@ FIR-ready case brief — in under 60 seconds.
 
 ---
 
+## 🚀 One-command run (Integration branch)
+
+### Windows
+```bat
+run.bat
+```
+
+### Linux / macOS
+```bash
+chmod +x run.sh
+./run.sh
+```
+
+### Make (any platform)
+```bash
+make dev
+```
+
+All three start:
+- **Backend**: `uvicorn backend.main:app --reload --port 8000`
+- **Frontend**: `npm run dev` (port 5173, proxied to backend)
+- Open **http://localhost:5173** in your browser
+
+For offline/demo mode (no Bob API key), set `FORCE_FALLBACK=1` in `.env`.
+
+---
+
 ## Quick start (offline / demo mode)
 
 ```bash
